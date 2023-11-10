@@ -1,18 +1,16 @@
-def bind_to_app(method, url):
-    '''first arg must be self, other args and kwargs are regular, at runtime fastapi ignores this argument'''
+def set_attrs(**decor_kwargs):
+    '''usage:
+    @decorator_func(a=b,...)
+    def inner(): ...
+    inner.a'''
     def Inner(func):
-        def wrapper(*args, **kwargs):
-            app = args.pop(0).app
-            if method=='post':
-                app.post(url)(func(*args, **kwargs))
-            elif method=='get':
-                app.get(url)(func(*args, **kwargs))
-            elif method=='patch':
-                app.patch(url)(func(*args, **kwargs))
-            elif method=='delete':
-                app.delete(url)(func(*args, **kwargs))
-            else:
-                raise Exception('unknown method')
-        return wrapper
+        # def wrapper(*args, **kwargs):            
+        #     return func(*args, **kwargs)
+        for i in decor_kwargs:
+            setattr(func, i, decor_kwargs[i])
+            # wrapper.b=x
+        return func
     return Inner
- 
+
+def sql_to_dict(session, sql):
+    return [row._mapping for row in session.execute(sql).all()]

@@ -1,13 +1,32 @@
-from utils import bind_to_app
-class Customer_resource:
-    _prefix = '/customers/'
-    def __init__(self, app):
-        self.app = app
-    
-    @bind_to_app('get', 'all/')
-    async def get_customers(self):
-        pass
+from utils import set_attrs, sql_to_dict
+from ._base_resource import Resource
+from resources import  engines, tables
+from sqlalchemy.orm import Session
+from sqlalchemy import select, delete, update, insert
+from models import Product_model
+from fastapi.encoders import jsonable_encoder
 
-    @bind_to_app('get', 'filtered/')
-    async def get_customers_with_product(self):
-        pass
+products = tables['test']['main.products']
+customers = tables['test']['main.customers']
+transactions = tables['test']['main.transactions']
+
+class Customer_resource(Resource):
+    
+    @set_attrs(method='get', route='all/')
+    async def r_get_customers(self):
+        with Session(engines['test']) as session:
+            return sql_to_dict(session, select(customers.c).select_from(customers))
+        
+    @set_attrs(method='get', route='filtered/{product_id}')
+    async def r_get_customers_with_product(self, product_id:int):
+        with Session(engines['test']) as session:
+            return {'code':200,'result':sql_to_dict(session, 
+                select(
+                customers.c
+                ).select_from(
+                customers
+                .join(transactions, customers.c.id==transactions.c.idCustomer )
+                ).where(
+                transactions.c.idProduct==product_id
+                )
+                                         )}
