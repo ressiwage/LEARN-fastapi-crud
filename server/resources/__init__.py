@@ -13,4 +13,5 @@ creds = {
     },
 }
 engines, tables, inspectors = create_db_resources(creds)
+print(list(tables.keys()))
 print(list(tables['test'].keys()))

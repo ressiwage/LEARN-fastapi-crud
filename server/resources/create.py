@@ -11,7 +11,7 @@ def create_db_resources(creds):
     for db, data in creds.items():
         engines_created += 1
         print(f'Creating resources for database "{db}"')
-        conn_str = "postgresql+psycopg2://{username}:{password}@{hostname}/{dbname}".format(**data)
+        conn_str = "postgresql+psycopg2://{username}:{password}@{hostname}".format(**data)
         print(conn_str)
         eng = create_engine(conn_str, echo=False)
         metadata = MetaData()
