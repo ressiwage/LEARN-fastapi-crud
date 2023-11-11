@@ -7,8 +7,10 @@ services:
     container_name: db
     image: postgres
     restart: always
+    ports:
+      - 5432:5432
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: kSqHwjRhBOHIwU
       DB_HOST: docker.for.mac.host.internal
     volumes:
         - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
