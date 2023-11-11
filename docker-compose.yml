@@ -9,6 +9,7 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: example
+      DB_HOST: docker.for.mac.host.internal
     volumes:
         - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
