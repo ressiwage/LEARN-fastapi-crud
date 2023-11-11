@@ -7,7 +7,8 @@ services:
     container_name: db
     image: postgres
     restart: always
-    expose: 5432
+    expose: 
+      - 5432
     environment:
       POSTGRES_PASSWORD: kSqHwjRhBOHIwU
       DB_HOST: docker.for.mac.host.internal
