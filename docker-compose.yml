@@ -4,7 +4,7 @@ version: '3.1'
 services:
 
   db:
-    name: db
+    container_name: db
     image: postgres
     restart: always
     environment:
@@ -13,14 +13,14 @@ services:
         - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   adminer:
-    name: adm
+    container_name: adm
     image: adminer
     restart: always
     ports:
       - 8080:8080
 
   server:
-    name: serv
+    container_name: serv
     build: server/
     command: uvicorn main:app --reload
     ports:
