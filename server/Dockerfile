@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.11-slim-buster
 EXPOSE 5000
 
 COPY ./requirements.txt /app/requirements.txt
