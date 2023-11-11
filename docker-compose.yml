@@ -7,8 +7,7 @@ services:
     container_name: db
     image: postgres
     restart: always
-    ports:
-      - 5432:5432
+  
     environment:
       POSTGRES_PASSWORD: kSqHwjRhBOHIwU
       DB_HOST: docker.for.mac.host.internal
@@ -30,6 +29,5 @@ services:
     command: uvicorn main:app --reload
     ports:
       - 5000:8000
-    network_mode: "host"
 
 
