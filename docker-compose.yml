@@ -11,7 +11,7 @@ services:
       - 5432
     environment:
       POSTGRES_PASSWORD: kSqHwjRhBOHIwU
-      DB_HOST: docker.for.mac.host.internal
+      DB_HOST: host.docker.internal
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     
