@@ -1,4 +1,4 @@
 class db:
-    hostname = 'http://host.docker.internal:5432'
+    hostname = 'host.docker.internal:5432'
     username = 'postgres'
     password = '123456789'
