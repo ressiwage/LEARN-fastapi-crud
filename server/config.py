@@ -1,4 +1,11 @@
+import docker
+
+client = docker.DockerClient()
+container = client.containers.get('db')
+ip_add = container.attrs['NetworkSettings']['IPAddress']
+print(ip_add)
+
 class db:
-    hostname = 'host.docker.internal:5432'
+    hostname = f'{ip_add}:5432'
     username = 'postgres'
     password = 'kSqHwjRhBOHIwU'
