@@ -25,7 +25,7 @@ services:
   server:
     container_name: serv
     build: server/
-    command: uvicorn main:app --reload
+    command: uvicorn main:app --host 0.0.0.0 --reload
     ports:
       - 5000:8000
 
