@@ -13,7 +13,9 @@ services:
       POSTGRES_PASSWORD: kSqHwjRhBOHIwU
       DB_HOST: docker.for.mac.host.internal
     volumes:
-        - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   adminer:
     container_name: adm
@@ -28,3 +30,5 @@ services:
     command: uvicorn main:app --reload
     ports:
       - 5000:8000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
