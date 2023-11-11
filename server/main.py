@@ -6,5 +6,3 @@ from routes import setup_routes
 app = FastAPI()
 
 setup_routes(app)
-
-

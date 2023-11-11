@@ -8,7 +8,6 @@ creds = {
         "hostname": db.hostname,
         "username": db.username,
         "password": db.password,
-        "dbname": "test-fa",
         "schema": "main"
     },
 }

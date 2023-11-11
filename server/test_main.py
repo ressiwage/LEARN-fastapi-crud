@@ -20,41 +20,65 @@ routes = """path                              full name
 /products/filtered/{customer_id}  routes.product.Product_resource.r_get_products_with_customer
 /redoc                            fastapi.applications.FastAPI.setup.<locals>.redoc_html"""
 
+
 def test_get_customers():
     response = client.get("/customers/all/")
     assert response.status_code == 200
+
 
 def test_get_products():
     response = client.get("/products/all/")
     assert response.status_code == 200
 
+
 def test_get_filtered_clients():
     response = client.get("/customers/filtered/1")
     assert response.status_code == 200
+
 
 def test_get_filtered_products():
     response = client.get("/products/filtered/1")
     assert response.status_code == 200
 
+
 def test_create_delete():
     '''post and delete'''
     response = client.get("/products/all")
-    start = response.json()['result']
-    client.post("/products/create", json={'name':'testTestTest'})
+    start = response.json()
+    client.post("/products/create", json={'name': 'testTestTest'})
     response = client.get("/products/all")
-    end = response.json()['result']
-    assert len(end)>len(start)
+    end = response.json()
+    assert len(end) > len(start)
     target = [i['id'] for i in end if i['name'] == 'testTestTest']
     for t in target:
         client.delete(f"/products/delete/{t}")
 
+
 def test_patch():
     '''create, patch, delete'''
-    client.post("/products/create", json={'name':'testPatchtestPatchtestPatch'})
-    start = client.get("/products/all").json()['result']
-    target_ids = [i['id'] for i in start if i['name'] == 'testPatchtestPatchtestPatch']
-    resp = client.patch(f"/products/edit/{target_ids[0]}", json={"idPhoto":1234})
-    end = client.get("/products/all").json()['result']
+    client.post("/products/create",
+                json={'name': 'testPatchtestPatchtestPatch'})
+    start = client.get("/products/all").json()
+    target_ids = [i['id']
+                  for i in start if i['name'] == 'testPatchtestPatchtestPatch']
+    resp = client.patch(
+        f"/products/edit/{target_ids[0]}", json={"idPhoto": 1234})
+    end = client.get("/products/all").json()
     assert [i['idPhoto'] for i in end if i['id'] == target_ids[0]][0] == 1234
+    for t in target_ids:
+        client.delete(f"/products/delete/{t}")
+
+
+def test_invalid_patch():
+    '''create, patch, delete'''
+    client.post("/products/create",
+                json={'name': 'testPatchtestPatchtestPatch'})
+    start = client.get("/products/all").json()
+    target_ids = [i['id']
+                  for i in start if i['name'] == 'testPatchtestPatchtestPatch']
+    resp = client.patch(
+        f"/products/edit/{target_ids[0]}", json={"id_____Photo": 1234})
+    print(resp, resp.text)
+    end = client.get("/products/all").json()
     for t in target_ids:
         client.delete(f"/products/delete/{t}")
