@@ -1,6 +1,6 @@
 import docker
 
-client = docker.DockerClient()
+client = docker.from_env()
 print(client.containers)
 container = client.containers.get('db')
 ip_add = container.attrs['NetworkSettings']['IPAddress']
